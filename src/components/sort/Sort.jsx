@@ -5,11 +5,14 @@ const Sort = (props) => {
 
     const [isVisible, setIsVisible] = useState(false);
     const list = [
-        {name:'популярности',sortProperty:'rating'},
-        {name:'цене',sortProperty:'price'},
-        {name:'алфавиту',sortProperty:'title'},
+        {name:'популярности ⇡',sortProperty:'-rating'},
+        {name:'популярности ⇣',sortProperty:'rating'},
+        {name:'цене ⇡',sortProperty:'-price'},
+        {name:'цене ⇣',sortProperty:'price'},
+        {name:'алфавиту ⇡',sortProperty:'-title'},
+        {name:'алфавиту ⇣',sortProperty:'title'},
     ]
-
+    // ⥥ ⥣ ⤒ ⤓ ⇑ ⇓ ⇈ ⇊  ⇡⇣  ⇢ ⇠
 
     const handlerSelect = (index) => {
         HandlerSortType(index)
