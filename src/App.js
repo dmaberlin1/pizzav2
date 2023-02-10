@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import {Route, Routes} from "react-router-dom";
 import Cart from "./pages/Cart";
+import {useDispatch, useSelector} from "react-redux";
+
 
 export const SearchContext=React.createContext({})
 
@@ -19,6 +21,8 @@ function App() {
 
     return (
       <div className="wrapper">
+
+
         <SearchContext.Provider value={{searchValue,setSearchValue}}>
             <Header></Header>
             <div className="content">

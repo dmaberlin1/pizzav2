@@ -5,20 +5,26 @@ import PizzaSkeleton from "../components/pizzaBlock/PizzaSkeleton";
 import PizzaBlock from "../components/pizzaBlock/PizzaBlock";
 import Pagination from "../components/pagination/Pagination";
 import {SearchContext} from "../App";
-
-
+import {useSelector, useDispatch} from "react-redux"
+import {setCategoryActiveIndex,setSortType} from "../redux/slices/filterSlice";
 
 const Home = (props) => {
+    const categoryActiveIndex = useSelector(state => state.filter.categoryActiveIndex)
+    const sortType=useSelector(state=>state.filter.sortType)
+    const dispatch = useDispatch()
 
-    const{searchValue}=React.useContext(SearchContext)
+
+    const {searchValue} = React.useContext(SearchContext)
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [sortType, setSortType] = useState({
-        name: 'популярности', sortProperty: 'title'
-    });
-    const [categoryActiveIndex, setCategoryActiveIndex] = useState(0);
+    // const [sortType, setSortType] = useState({
+    //     name: 'популярности', sortProperty: 'title'
+    // });
+    // const [categoryActiveIndex, setCategoryActiveIndex] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-
+    const HandlerCategoryIndex=(id)=>{
+        dispatch(setCategoryActiveIndex(id))
+    }
 
     useEffect(() => {
         setIsLoading(true)
@@ -37,7 +43,7 @@ const Home = (props) => {
               setIsLoading(false)
           })
         window.scrollTo(0, 0)
-    }, [categoryActiveIndex, sortType,searchValue,currentPage]);
+    }, [categoryActiveIndex, sortType, searchValue, currentPage]);
 
     // const pizzas = items
     //   .filter((item) => {
@@ -73,12 +79,9 @@ const Home = (props) => {
           <div className="content__top">
               <Categories
                 activeIndex={categoryActiveIndex}
-                HandlerCategory={(index) => setCategoryActiveIndex(index)}
+                HandlerCategory={(index) => HandlerCategoryIndex(index)}
               ></Categories>
-              <Sort
-                sortType={sortType}
-                HandlerSortType={(index) => setSortType(index)}
-              ></Sort>
+              <Sort></Sort>
           </div>
 
           <h2 className="content__title">Все пиццы</h2>
@@ -89,8 +92,8 @@ const Home = (props) => {
                     : pizzas
               }
           </div>
-                <Pagination onChangePage={(number)=>setCurrentPage(number)}
-                          ></Pagination>
+          <Pagination onChangePage={(number) => setCurrentPage(number)}
+          ></Pagination>
       </div>
 
     );
