@@ -2,12 +2,14 @@ import React, {useCallback, useRef, useState} from 'react';
 import styles from './Search.module.scss'
 import {SearchContext} from "../../App";
 import debounce from 'lodash.debounce'
+import {useDispatch} from "react-redux";
+import {setSearchValue} from "../../redux/slices/filterSlice";
 
 
 
 const Search = (props) => {
+    const dispatch=useDispatch()
     const [value, setValue] = useState('');
-    const {searchValue,setSearchValue}=React.useContext(SearchContext)
     const inputRef = useRef(null);
     //реф - рефференс, ссылка,   мы взяли хук, назвали его и назначили в то место(элемент),где он будет ссылкой
     // конкретно сейчас я взял хук и сделал его ссылкой на инпут, добавил ref=inputRef в свой инпут,
@@ -23,7 +25,7 @@ const Search = (props) => {
 
     const updateSearchValue=useCallback(
       debounce((str)=>{
-          setSearchValue(str);
+          dispatch(setSearchValue(str))
       },300),[],
     )
 
@@ -33,7 +35,7 @@ const Search = (props) => {
     }
 
     const HandlerClear=()=>{
-        setSearchValue('');
+        dispatch(setSearchValue(''))
         setValue('');
         inputRef.current.focus()
     }
@@ -55,7 +57,7 @@ const Search = (props) => {
             className={styles.input}
             placeholder={'Поиск пиццы...'}/>
 
-          {searchValue.length > 0 ? (
+          {value.length > 0 ? (
             <svg onClick={HandlerClear} className={styles.clearIcon} viewBox="0 0 20 20"
                  xmlns="http://www.w3.org/2000/svg">
                 <path

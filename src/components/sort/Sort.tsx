@@ -14,14 +14,43 @@ export const list = [
 const Sort = () => {
     const sortType=useSelector(state=>state.filter.sortType)
     const dispatch=useDispatch()
+    const sortRef=React.useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 
     const handlerSelect = (obj) => {
         dispatch(setSortType(obj))
         setIsVisible(!isVisible)
     }
+
+    React.useEffect(()=>{
+       const handleClickOutside=(event)=>{
+           if(!event.composedPath().includes(sortRef.current)){
+               setIsVisible(false)
+               console.log('click outside')
+           }
+       }
+       document.body.addEventListener('click',handleClickOutside);
+       //ниже у нас анмаунт
+       return ()=>{
+           console.log('sort unmount')
+        document.body.removeEventListener('click',handleClickOutside)
+       }
+    },[])
+
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         console.log(event.composedPath());
+    //         let path = event.composedPath().includes(sortRef.current);
+    //         if (!path) setIsVisiblePopup(false);
+    //     };
+    //
+    //     document.body.addEventListener('click', handleClickOutside);
+    //
+    //     return () => document.body.removeEventListener('click', handleClickOutside);
+    // }, []);
+
     return (
-      <div className="sort">
+      <div ref={sortRef} className="sort">
           <div className="sort__label">
               <svg
                 width="10"
